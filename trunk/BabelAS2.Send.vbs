@@ -132,8 +132,7 @@ Private Function CRYPTO_Envelop(strData, strCertThumbprint) 'As String
 End Function
 
 Function CreateGUID()
-  Dim oUtil: Set oUtil = CreateObject("Event.Util")
-  Dim strGUID: strGUID = oUtil.GetNewGUID
-  CreateGUID = Mid(strGUID, 2, Len(strGUID)-2)
-  Set oUtil = Nothing
+  Dim tl: Set tl = CreateObject("Scriptlet.TypeLib")
+  CreateGUID = Mid(tl.Guid, 2, 36)
+  Set tl = Nothing
 End Function
