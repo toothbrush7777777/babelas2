@@ -1,14 +1,24 @@
 'Subversion Info: $Id$
 Option Explicit
 
+'Dim strMDN: strMDN = SendAS2( _
+'  "mycompanyAS2", _
+'  "3d a0 27 42 4d 92 6d 04 bb 74 66 1d 48 3e 61 6a 46 2a 05 b7", _
+'  "EDIFACT.instance.txt", _
+'  "application/EDIFACT", _
+'  "http://as2.mendelson-e-c.com:8080/as2/HttpReceiver", _
+'  "mendelsontestAS2", _
+'  "6d 9a 2c 79 02 0b f1 6b 20 78 e4 a3 be df 93 dd 2a ad b7 40")
+
 Dim strMDN: strMDN = SendAS2( _
-  "mycompanyAS2", _
-  "3d a0 27 42 4d 92 6d 04 bb 74 66 1d 48 3e 61 6a 46 2a 05 b7", _
+  "BabelAS2 Test Client", _
+  "a5 bc 87 4a b5 96 9d c4 11 d1 5a 93 ac 49 cf 74 1a 12 29 97", _
   "EDIFACT.instance.txt", _
   "application/EDIFACT", _
-  "http://as2.mendelson-e-c.com:8080/as2/HttpReceiver", _
-  "mendelsontestAS2", _
-  "6d 9a 2c 79 02 0b f1 6b 20 78 e4 a3 be df 93 dd 2a ad b7 40")
+  "http://127.0.0.1/BabelAS2/Receive.asp", _
+  "BabelAS2 Test Server", _
+  "67 8f a8 49 b4 7c 7c 94 8e b0 8b ab 0b e8 be fc 65 68 ab 33")
+
 WScript.Echo strMDN
 
 Public Function SendAS2( _
@@ -20,10 +30,11 @@ Public Function SendAS2( _
   strPartnerAS2Id, _
   strPartnerCertThumbprint)
 
+  Dim strGUID: strGUID = CreateGUID()
   Dim xhttp: Set xhttp = CreateObject("MSXML2.ServerXMLHTTP")
   xhttp.open "POST", strPartnerURL, False
   xhttp.setRequestHeader "Connection", "close"
-  xhttp.setRequestHeader "Message-Id", "<" & CreateGUID() & "@BA>"
+  xhttp.setRequestHeader "Message-Id", "<" & strGUID & "@BA>"
   xhttp.setRequestHeader "Date", CStr(Now)
   xhttp.setRequestHeader "From", "BabelAS2"
   xhttp.setRequestHeader "Subject", "AS2 Communication"
@@ -36,6 +47,7 @@ Public Function SendAS2( _
   xhttp.setRequestHeader "Content-Disposition", "attachment; filename=""smime.p7m"""
   xhttp.setRequestHeader "Disposition-notification-To", "dummy@email.com"
   xhttp.setRequestHeader "Disposition-notification-options", "signed-receipt-protocol=optional,pkcs7-signature;signed-receipt-micalg=optional,sha1"
+  xhttp.setRequestHeader "User-Agent", "BabelAS2 version 0.03 - http://babelas2.babelabout.com/"
   Dim stm: Set stm = CreateObject("ADODB.Stream")
   stm.Open
   stm.Type = 1 'This line is mandatory, otherwise you get the "FF FE" :-/
@@ -70,6 +82,14 @@ Public Function SendAS2( _
   stm.Position = 0 ' 'This line is mandatory!
   xhttp.send stm
   SendAS2 = xhttp.responseText
+
+  Dim fsoMDN: Set fsoMDN = CreateObject("Scripting.FileSystemObject")
+  Dim stmMDN: Set stmMDN = fsoMDN.CreateTextFile("MDN." & strGUID & ".txt", False)
+  stmMDN.Write xhttp.responseText
+  stmMDN.Close
+  Set stmMDN = Nothing
+  Set fsoMDN = Nothing
+
   stm.Close
   Set stm = Nothing
   Set xhttp = Nothing
