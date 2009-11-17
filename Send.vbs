@@ -15,7 +15,7 @@ Dim strMDN: strMDN = SendAS2( _
   "a5 bc 87 4a b5 96 9d c4 11 d1 5a 93 ac 49 cf 74 1a 12 29 97", _
   "EDIFACT.instance.txt", _
   "application/EDIFACT", _
-  "http://127.0.0.1/BabelAS2/Receive.asp", _
+  "http://babelas2.babelabout.net/", _
   "BabelAS2 Test Server", _
   "67 8f a8 49 b4 7c 7c 94 8e b0 8b ab 0b e8 be fc 65 68 ab 33")
 
