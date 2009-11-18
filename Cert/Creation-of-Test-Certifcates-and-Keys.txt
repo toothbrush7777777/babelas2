@@ -1,7 +1,0 @@
-openssl genrsa -des3 -out "C:\BabelAS2\trunk\Cert\BabelAS2_Test_Server.pair-of-keys.pem" 1024
-openssl req -new -x509 -key "C:\BabelAS2\trunk\Cert\BabelAS2_Test_Server.pair-of-keys.pem" -out "C:\BabelAS2\trunk\Cert\BabelAS2_Test_Server.cer" -days 1095
-openssl pkcs12 -export -in "C:\BabelAS2\trunk\Cert\BabelAS2_Test_Server.cer" -inkey "C:\BabelAS2\trunk\Cert\BabelAS2_Test_Server.pair-of-keys.pem" -out "C:\BabelAS2\trunk\Cert\BabelAS2_Test_Server.pfx"
-
-openssl genrsa -des3 -out "C:\BabelAS2\trunk\Cert\BabelAS2_Test_Client.pair-of-keys.pem" 1024
-openssl req -new -x509 -key "C:\BabelAS2\trunk\Cert\BabelAS2_Test_Client.pair-of-keys.pem" -out "C:\BabelAS2\trunk\Cert\BabelAS2_Test_Client.cer" -days 1095
-openssl pkcs12 -export -in "C:\BabelAS2\trunk\Cert\BabelAS2_Test_Client.cer" -inkey "C:\BabelAS2\trunk\Cert\BabelAS2_Test_Client.pair-of-keys.pem" -out "C:\BabelAS2\trunk\Cert\BabelAS2_Test_Client.pfx"
