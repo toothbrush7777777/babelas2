@@ -136,4 +136,13 @@ In order to receive messages, we recommend that you create a dedicated web site 
  # Type "exit"
 
 *Send a test message to your BabelAS2 server:*
- # ...
+ # Click on Start/Programs/Accessories/Windows Explorer
+ # Select "`<`Install`>`\BabelAS2\tags\vN.MM\Send.vbs"
+ # Right-click on "Send.vbs" and select "Edit"
+ # Go to the line 21 and replace "http://babelas2.babelabout.net/" by "http://localhost/BabelAS2/Receive.asp"
+ # Click on "File/Save"
+ # Click on "File/Exit"
+ # Double-click on "`<`Install`>`\BabelAS2\tags\vN.MM\Send.vbs"
+ # Click on the "OK" button
+ # Go to "`<`Install`>`\BabelAS2\tags\vN.MM\Data to check if your test message has arrived
+ # Report any problem (or success) to [mailto:babelabout@gmail.com] ;-)
