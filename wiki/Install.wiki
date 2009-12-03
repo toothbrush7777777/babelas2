@@ -13,15 +13,15 @@ This installation procedure have been tested with the following operation system
 
 *Unzip BabelAS2.vN.MM.zip in a folder `<`Install`>`.*
 
-*Install CAPICOM*
+*Install CAPICOM:*
  # Copy "`<`Install`>`\BabelAS2\tags\vN.MM\Setup\capicom.dll" to "C:\WINDOWS\system32"
  # Click on Start/Programs/Accessories/Command Prompt
  # Type "C:"
  # Type "cd C:\WINDOWS\system32"
  # Type "regsvr32.exe capicom.dll"
- # Click on the "OK" button
+ # Click on the "OK" button.
 
-*Install the test certificate(s) and private key(s)*
+*Install the test certificate(s) and private key(s):*
  # Double-click on "`<`Install`>`\BabelAS2\tags\vN.MM\Setup\BabelAS2.msc"
  # Expand the "Certificates (Local Computer)" node
  # Right-click on "Personal" and select "All Tasks/Import..."
@@ -37,11 +37,11 @@ This installation procedure have been tested with the following operation system
  # Click on the "Next" button.
  # Click on the "Finish" button.
  # Click on the "OK" button.
- # Repeat from step *3*, with selecting "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Server.pfx" at step *7*
+ # Repeat from step *3*, with selecting "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Server.pfx" at step *7*.
 
 *_Remark:_* If you only send messages, you can import "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Server.*cer*" instead. And, if you only want to receive, you can import "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Client.*cer*".
 
-*Send a test message to the BabelAS2 Test Server*
+*Send a test message to the _BabelAS2 Test Server_:*
  # Double-click on "`<`Install`>`\BabelAS2\tags\vN.MM\Send.vbs"
  # Click on the "OK" button
  # Go to [http://babelas2.babelabout.net/Test/] to check if your test message has arrived
@@ -50,3 +50,37 @@ This installation procedure have been tested with the following operation system
 *Create the BabelAS2 user:*
  # Double-click on "`<`Install`>`\BabelAS2\tags\vN.MM\Setup\BabelAS2.msc" (if needed)
  # Expand the "Local User and Groups (Local)" node
+ # Right-click on "Users" and select "New User..."
+ # Type "BabelAS2" in the "User name:" edit box
+ # Type "BabelAS2" in the "Full name:" edit box
+ # Type "BabelAS2" in the "Description:" edit box
+ # Type "`<`Password`>`" in the "Password:" edit box
+ # Type "`<`Password`>`" in the "Confirm password:" edit box
+ # Uncheck "User must change password at next logon"
+ # Check "User cannot change password"
+ # Check "Password never expires"
+ # Leave unchecked "Account is disabled"
+ # Click on the "Create" button.
+ # Click on the "Close" button.
+ # Double-click on "BabelAS2" on the right pane
+ # Click on the "Member Of" tab
+ # Select the "Users" item
+ # Click on the "Remove" button
+ # Click on the "OK" button.
+
+In order to receive messages, we recommend that you create a dedicated web site on a Windows 2003 server, but you can also just create a virtual directory on a Windows XP machine, see below.
+
+*Create the babelas2.domain.net web site (Windows 2003 only):*
+ # Expand the "Internet Information Services" node
+ # Expand the "`<`Computer`>` (local computer)" node
+ # Right-click on "Web Sites" and select "New/Web Site..." (not available on Windows XP)
+ # ...
+
+*Create the BabelAS2 virtual directory (Windows XP):*
+ # Expand the "Internet Information Services" node
+ # Expand the "`<`Computer`>` (local computer)" node
+ # Expand the "Web Sites" node
+ # ...
+
+*Send a test message to your BabelAS2 server:*
+ # ...
