@@ -28,7 +28,7 @@ This installation procedure have been tested with the following operation system
  # Click on the "Next" button.
  # Click on the "Browse..." button
  # Select "Personal Information Exchange (`*`.pfx;`*`.p12)" in the "Files of type:" drop-down list
- # select "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Client.pfx"
+ # Select "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Client.pfx"
  # Click on the "Open" button
  # Click on the "Next" button
  # Type "test" in the "Password:" edit box
@@ -37,7 +37,7 @@ This installation procedure have been tested with the following operation system
  # Click on the "Next" button.
  # Click on the "Finish" button.
  # Click on the "OK" button.
- # Redo from step *3*, with selecting "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Server.pfx" at step *7*
+ # Repeat from step *3*, with selecting "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Server.pfx" at step *7*
 
 *_Remark:_* If you only send messages, you can import "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Server.*cer*" instead. And, if you only want to receive, you can import "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Client.*cer*".
 
