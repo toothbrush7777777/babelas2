@@ -161,13 +161,13 @@ Private Function CRYPTO_SHA1(strData) 'As String
 End Function
 
 Private Function CRYPTO_GetCertificate(strCertThumbprint) 'As CAPICOM.Certificate
-  Const CAPICOM_CURRENT_USER_STORE = 2
+  Const CAPICOM_LOCAL_MACHINE_STORE = 1
   Const CAPICOM_STORE_OPEN_READ_ONLY = 0
   strCertThumbprint = Replace(strCertThumbprint, " " , "")
   strCertThumbprint = UCase(strCertThumbprint)
   Dim cer: Set cer = Nothing
   Dim st: Set st = CreateObject("CAPICOM.Store")
-  st.Open CAPICOM_CURRENT_USER_STORE, "My", CAPICOM_STORE_OPEN_READ_ONLY
+  st.Open CAPICOM_LOCAL_MACHINE_STORE, "My", CAPICOM_STORE_OPEN_READ_ONLY
   For Each cer In st.Certificates
     If (StrComp(cer.Thumbprint, strCertThumbprint, vbTextCompare) = 0) Then
       Set CRYPTO_GetCertificate = cer
