@@ -119,6 +119,16 @@ In order to receive messages, we recommend that you create a dedicated web site 
  # Type "`<`Password`>`" in the "Please re-enter the password to confirm:" edit box
  # Click on the "OK" button
  # Click on the "OK" button
+ # Click on Start/Programs/Accessories/Windows Explorer
+ # Select "`<`Install`>`\BabelAS2\tags\vN.MM\Data"
+ # Right-click on "Data" and select "Properties"
+ # Click on the "Security" tab
+ # Click on the "Add..." button
+ # Type "BabelAS2" in the "Enter the object names to select (examples):" text box
+ # Click on the "Check Names" button
+ # Click on the "OK" button
+ # Check "Full Control" in the "Allow" column
+ # Click on the "OK" button
  # Click on Start/Programs/Accessories/Command Prompt
  # Type "C:"
  # Type "cd `<`Install`>`\BabelAS2\tags\vN.MM\Setup"
