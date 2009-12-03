@@ -75,7 +75,66 @@ In order to receive messages, we recommend that you create a dedicated web site 
  # Expand the "Internet Information Services" node
  # Expand the "`<`Computer`>` (local computer)" node
  # Right-click on "Web Sites" and select "New/Web Site..." (not available on Windows XP)
- # ...
+ # Click on the "Next" button
+ # Type "babelas2.domain.net" in the "Description:" edit box
+ # Click on the "Next" button
+ # Type "babelas2.domain.net" in the "Host header for this Web site (Default: None):" edit box
+ # Click on the "Next" button
+ # Click on the "Browse..." button
+ # Select "`<`Install`>`\BabelAS2\tags\vN.MM\Receive"
+ # Click on the "OK" button
+ # Check "Allow anonymous access to this Web site
+ # Click on the "Next" button
+ # Check "Read"
+ # Check "Run scripts (such as ASP)
+ # Uncheck "Execute (such as ISAPI applications or CGI)
+ # Uncheck "Write"
+ # Uncheck "Browse"
+ # Click on the "Next" button
+ # Click on the "Finish" button
+ # Right-click on "babelas2.domain.net" and select "Properties"
+ # Click on the "Home Directory" tab
+ # Click on the "Configuration..." button
+ # Click on the "Options" tab
+ # Check "Enable session state"
+ # Check "Enable buffering"
+ # Check "Enable parent paths"
+ # Click on the "OK" button
+ # Click on the "Documents" tab
+ # Click on the "Add..." button
+ # Type "Receive.asp" in the "Default content page:" edit box
+ # Click on the "OK" button
+ # Click on the "Directory Security" tab
+ # Click on the "Edit..." button of the "Authentication and access control" section
+ # Check "Enable anonymous access"
+ # Click on the "Browse..." button
+ # Type "BabelAS2" in the "Enter the object names to select (examples):" text box
+ # Click on the "Check Names" button
+ # Click on the "OK" button
+ # Type "`<`Password`>`" in the "Password:" edit box
+ # Uncheck "Integrated Windows authentication"
+ # Uncheck "Digest authentication for Windows domain servers"
+ # Uncheck "Basic authentication (password is sent in clear text)
+ # Uncheck ".NET Passport authentication"
+ # Click on the "OK" button
+ # Type "`<`Password`>`" in the "Please re-enter the password to confirm:" edit box
+ # Click on the "OK" button
+ # Click on the "OK" button
+ # Click on Start/Programs/Accessories/Windows Explorer
+ # Select "`<`Install`>`\BabelAS2\tags\vN.MM\Data"
+ # Right-click on "Data" and select "Properties"
+ # Click on the "Security" tab
+ # Click on the "Add..." button
+ # Type "BabelAS2" in the "Enter the object names to select (examples):" text box
+ # Click on the "Check Names" button
+ # Click on the "OK" button
+ # Check "Full Control" in the "Allow" column
+ # Click on the "OK" button
+ # Click on Start/Programs/Accessories/Command Prompt
+ # Type "C:"
+ # Type "cd `<`Install`>`\BabelAS2\tags\vN.MM\Setup"
+ # Type "winhttpcertcfg -g -c LOCAL_MACHINE\My -s "BabelAS2 Test Server" -a BabelAS2"
+ # Type "exit"
 
 *Create the BabelAS2 virtual directory (Windows XP):*
  # Expand the "Internet Information Services" node
@@ -87,6 +146,7 @@ In order to receive messages, we recommend that you create a dedicated web site 
  # Click on the "Next" button
  # Click on the "Browse..." button
  # Select "`<`Install`>`\BabelAS2\tags\vN.MM\Receive"
+ # Click on the "OK" button
  # Click on the "Next" button
  # Check "Read"
  # Check "Run scripts (such as ASP)
