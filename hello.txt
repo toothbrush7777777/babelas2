@@ -1,0 +1,4 @@
+[Select this text and press F5]
+This is a test message sent via AS2Box.net - http://www.AS2Box.net/
+
+There is a CRLF at the end!
