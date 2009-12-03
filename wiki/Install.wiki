@@ -45,4 +45,4 @@ This installation procedure have been tested with the following operation system
  # Double-click on "`<`Install`>`\BabelAS2\tags\vN.MM\Send.vbs"
  # Click on the "OK" button
  # Go to [http://babelas2.babelabout.net/Test/] to check if your test message has arrived
- # Report any problem (or success) at [mailto:babelabout@gmail.com] ;-)
+ # Report any problem (or success) to [mailto:babelabout@gmail.com] ;-)
