@@ -1,24 +1,26 @@
 'Subversion Info: $Id$
 Option Explicit
 
+'This is the configuration to send a message to the mendelson AS2 test server:
 'Dim strMDN: strMDN = SendAS2( _
 '  "mycompanyAS2", _
 '  "3d a0 27 42 4d 92 6d 04 bb 74 66 1d 48 3e 61 6a 46 2a 05 b7", _
-'  "EDIFACT.instance.txt", _
-'  "application/EDIFACT", _
+'  "hello.txt", _
+'  "plain/text", _
 '  "http://as2.mendelson-e-c.com:8080/as2/HttpReceiver", _
 '  "mendelsontestAS2", _
 '  "6d 9a 2c 79 02 0b f1 6b 20 78 e4 a3 be df 93 dd 2a ad b7 40")
+'WScript.Echo strMDN
 
+'This is the configuration to send a message to the BabelAS2 test server:
 Dim strMDN: strMDN = SendAS2( _
   "BabelAS2 Test Client", _
   "a5 bc 87 4a b5 96 9d c4 11 d1 5a 93 ac 49 cf 74 1a 12 29 97", _
-  "EDIFACT.instance.txt", _
-  "application/EDIFACT", _
+  "hello.txt", _
+  "plain/text", _
   "http://babelas2.babelabout.net/", _
   "BabelAS2 Test Server", _
   "67 8f a8 49 b4 7c 7c 94 8e b0 8b ab 0b e8 be fc 65 68 ab 33")
-
 WScript.Echo strMDN
 
 Public Function SendAS2( _
@@ -31,13 +33,13 @@ Public Function SendAS2( _
   strPartnerCertThumbprint)
 
   Dim strGUID: strGUID = CreateGUID()
-  Dim xhttp: Set xhttp = CreateObject("MSXML2.ServerXMLHTTP")
+  Dim xhttp: Set xhttp = CreateObject("MSXML2.ServerXMLHTTP.4.0")
   xhttp.open "POST", strPartnerURL, False
   xhttp.setRequestHeader "Connection", "close"
-  xhttp.setRequestHeader "Message-Id", "<" & strGUID & "@BA>"
+  xhttp.setRequestHeader "Message-Id", "<" & strGUID & "@BabelAS2>"
   xhttp.setRequestHeader "Date", CStr(Now)
   xhttp.setRequestHeader "From", "BabelAS2"
-  xhttp.setRequestHeader "Subject", "AS2 Communication"
+  xhttp.setRequestHeader "Subject", "AS2 Communication with BabelAS2"
   xhttp.setRequestHeader "Mime-Version", "1.0"
   xhttp.setRequestHeader "AS2-Version", "1.1"
   xhttp.setRequestHeader "AS2-From", strMyAS2Id
@@ -45,9 +47,9 @@ Public Function SendAS2( _
   xhttp.setRequestHeader "Content-Type", "application/pkcs7-mime; smime-type=enveloped-data; name=""smime.p7m"""
   xhttp.setRequestHeader "Content-Transfer-Encoding", "base64"
   xhttp.setRequestHeader "Content-Disposition", "attachment; filename=""smime.p7m"""
-  xhttp.setRequestHeader "Disposition-notification-To", "dummy@email.com"
+  xhttp.setRequestHeader "Disposition-notification-To", "babelabout@gmail.com"
   xhttp.setRequestHeader "Disposition-notification-options", "signed-receipt-protocol=optional,pkcs7-signature;signed-receipt-micalg=optional,sha1"
-  xhttp.setRequestHeader "User-Agent", "BabelAS2 version 0.03 - http://babelas2.babelabout.com/"
+  xhttp.setRequestHeader "User-Agent", "BabelAS2 - http://code.google.com/p/babelas2/"
   Dim stm: Set stm = CreateObject("ADODB.Stream")
   stm.Open
   stm.Type = 1 'This line is mandatory, otherwise you get the "FF FE" :-/
@@ -95,16 +97,14 @@ Public Function SendAS2( _
   Set xhttp = Nothing
 End Function
 
-Const CAPICOM_CURRENT_USER_STORE = 2
-Const CAPICOM_STORE_OPEN_READ_ONLY = 0
-Const CAPICOM_ENCODE_BASE64 = 0
-
 Private Function CRYPTO_GetCertificate(strCertThumbprint) 'As CAPICOM.Certificate
+  Const CAPICOM_LOCAL_MACHINE_STORE = 1 'Now we use the Local Computer Personal store!
+  Const CAPICOM_STORE_OPEN_READ_ONLY = 0
   strCertThumbprint = Replace(strCertThumbprint, " " , "")
   strCertThumbprint = UCase(strCertThumbprint)
   Dim cer: Set cer = Nothing
   Dim st: Set st = CreateObject("CAPICOM.Store")
-  st.Open CAPICOM_CURRENT_USER_STORE, "My", CAPICOM_STORE_OPEN_READ_ONLY
+  st.Open CAPICOM_LOCAL_MACHINE_STORE, "My", CAPICOM_STORE_OPEN_READ_ONLY
   For Each cer In st.Certificates
     If (StrComp(cer.Thumbprint, strCertThumbprint, vbTextCompare) = 0) Then
       Set CRYPTO_GetCertificate = cer
@@ -115,6 +115,7 @@ Private Function CRYPTO_GetCertificate(strCertThumbprint) 'As CAPICOM.Certificat
 End Function
 
 Private Function CRYPTO_Sign(strData, strCertThumbprint) 'As String
+  Const CAPICOM_ENCODE_BASE64 = 0
   Dim oSignedData: Set oSignedData = CreateObject("CAPICOM.SignedData")
   Dim oSigner: Set oSigner = CreateObject("CAPICOM.Signer")
   Dim stm: Set stm = CreateObject("ADODB.Stream")
@@ -134,6 +135,7 @@ Private Function CRYPTO_Sign(strData, strCertThumbprint) 'As String
 End Function
 
 Private Function CRYPTO_Envelop(strData, strCertThumbprint) 'As String
+  Const CAPICOM_ENCODE_BASE64 = 0
   Dim oEnvelopedData: Set oEnvelopedData = CreateObject("CAPICOM.EnvelopedData")
   Dim stm: Set stm = CreateObject("ADODB.Stream")
   stm.Open
