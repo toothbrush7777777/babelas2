@@ -46,3 +46,6 @@ This installation procedure have been tested with the following operation system
  # Click on the "OK" button
  # Go to [http://babelas2.babelabout.net/Test/] to check if your test message has arrived
  # Report any problem (or success) to [mailto:babelabout@gmail.com] ;-)
+
+*Create the "BAbelAS2" user:
+ # Double-click on "`<`Install`>`\BabelAS2\tags\vN.MM\Setup\BabelAS2.msc"
