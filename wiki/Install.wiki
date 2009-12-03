@@ -134,7 +134,7 @@ In order to receive messages, we recommend that you create a dedicated web site 
  # Type "C:"
  # Type "cd `<`Install`>`\BabelAS2\tags\vN.MM\Setup"
  # Type "winhttpcertcfg -g -c LOCAL_MACHINE\My -s "BabelAS2 Test Server" -a BabelAS2"
- # Type "exit"
+ # Type "exit".
 
 *Create the BabelAS2 virtual directory (Windows XP):*
  # Expand the "Internet Information Services" node
@@ -193,7 +193,7 @@ In order to receive messages, we recommend that you create a dedicated web site 
  # Type "C:"
  # Type "cd `<`Install`>`\BabelAS2\tags\vN.MM\Setup"
  # Type "winhttpcertcfg -g -c LOCAL_MACHINE\My -s "BabelAS2 Test Server" -a BabelAS2"
- # Type "exit"
+ # Type "exit".
 
 *Send a test message to your BabelAS2 server:*
  # Click on Start/Programs/Accessories/Windows Explorer
