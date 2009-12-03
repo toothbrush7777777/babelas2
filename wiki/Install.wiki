@@ -9,7 +9,7 @@ This guide gives you a exhaustive step-by-step procedure for installing and conf
 
 This installation procedure have been tested with the following operation systems:
  * Windows XP with IIS V5.1
- * Windows 2003 Server with IIS6
+ * Windows 2003 Server with IIS V6.0
 
 *Unzip BabelAS2.vN.MM.zip in a folder `<`Install`>`.*
 
