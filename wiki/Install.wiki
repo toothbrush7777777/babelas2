@@ -80,7 +80,49 @@ In order to receive messages, we recommend that you create a dedicated web site 
  # Expand the "Internet Information Services" node
  # Expand the "`<`Computer`>` (local computer)" node
  # Expand the "Web Sites" node
- # ...
+ # Right-click on "Default Web Sites" and select "New/Virtual Directory..."
+ # Click on the "Next" button
+ # Type "BabelAS2" in the "Alias:" edit box
+ # Click on the "Next" button
+ # Click on the "Browse..." button
+ # Select "`<`Install`>`\BabelAS2\tags\vN.MM\Receive"
+ # Click on the "Next" button
+ # Check "Read"
+ # Check "Run scripts (such as ASP)
+ # Uncheck "Execute (such as ISAPI applications or CGI)
+ # Uncheck "Write"
+ # Uncheck "Browse"
+ # Click on the "Next" button
+ # Click on the "Finish" button
+ # Expand the "Default Web Sites" node
+ # Right-click on "BabelAS2" and select "Properties"
+ # Click on the "Configuration..." button
+ # Click on the "Options" tab
+ # Check "Enable session state"
+ # Check "Enable buffering"
+ # Check "Enable parent paths"
+ # Click on the "OK" button
+ # Click on the "Documents" tab
+ # Check "Enable Default Documents"
+ # Click on the "Add..." button
+ # Type "Receive.asp" in the "Default Document Name:" edit box
+ # Click on the "OK" button
+ # Click on the "Directory Security" tab
+ # Click on the "Edit..." button of the "Anonymous access and authentication control" section
+ # Check "Anonymous access"
+ # Click on the "Browse..." button
+ # Type "BabelAS2" in the "Enter the object names to select (examples):" text box
+ # Click on the "Check Names" button
+ # Click on the "OK" button
+ # Uncheck "Allow IIS to control password"
+ # Type "`<`Password`>`" in the "Password:" edit box
+ # Uncheck "Digest authentication for Windows domain servers"
+ # Uncheck "Basic authentication (password is sent in clear text)
+ # Uncheck "Integrated Windows authentication"
+ # Click on the "OK" button
+ # Type "`<`Password`>`" in the "Please re-enter the password to confirm:" edit box
+ # Click on the "OK" button
+ # Click on the "OK" button
 
 *Send a test message to your BabelAS2 server:*
  # ...
