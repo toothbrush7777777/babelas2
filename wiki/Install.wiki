@@ -11,7 +11,38 @@ This installation procedure have been tested with the following operation system
  * Windows XP with IIS V5.1
  * Windows 2003 Server with IIS6
 
-Unzip BabelAS2.vN.MM.zip in a folder `<`Install`>`.
+*Unzip BabelAS2.vN.MM.zip in a folder `<`Install`>`.*
 
-Install CAPICOM
- # Copy ...
+*Install CAPICOM*
+ # Copy "`<`Install`>`\BabelAS2\tags\vN.MM\Setup\capicom.dll" to "C:\WINDOWS\system32"
+ # Click on Start/Programs/Accessories/Command Prompt
+ # Type "C:"
+ # Type "cd C:\WINDOWS\system32"
+ # Type "regsvr32.exe capicom.dll"
+ # Click on the "OK" button
+
+*Install the test certificate(s) and private key(s)*
+ # Double-click on "`<`Install`>`\BabelAS2\tags\vN.MM\Setup\BabelAS2.msc"
+ # Expand the "Certificates (Local Computer)" node
+ # Right-click on "Personal" and select "All Tasks/Import..."
+ # Click on the "Next" button.
+ # Click on the "Browse..." button
+ # Select "Personal Information Exchange (`*`.pfx;`*`.p12)" in the "Files of type:" drop-down list
+ # select "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Client.pfx"
+ # Click on the "Open" button
+ # Click on the "Next" button
+ # Type "test" in the "Password:" edit box
+ # Check "Mark this key as exportable. This will allow you to back up or transport your keys at a later time."
+ # Click on the "Next" button.
+ # Click on the "Next" button.
+ # Click on the "Finish" button.
+ # Click on the "OK" button.
+ # Redo from step *3*, with selecting "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Server.pfx" at step *7*
+
+*_Remark:_* If you only send messages, you can import "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Server.*cer*" instead. And, if you only want to receive, you can import "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Client.*cer*".
+
+*Send test message to the BabelAS2 Test Server*
+ # Double-click on "`<`Install`>`\BabelAS2\tags\vN.MM\Send.vbs"
+ # Click on the "OK" button
+ # Go to http://babelas2.babelabout.net/Test/ to check if your test message has arrived
+ # Report any problem (or success) at babelabout@gmail.com ;-)
