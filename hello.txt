@@ -1,4 +1,6 @@
-[Select this text and press F5]
-This is a test message sent via AS2Box.net - http://www.AS2Box.net/
+[Select this text and press F5 (in Notepad)]
+This is a test message sent with BabelAS2 - http://code.google.com/p/babelas2/
 
 There is a CRLF at the end!
+
+/Babelabout - http://babelabout.blogspot.com/
