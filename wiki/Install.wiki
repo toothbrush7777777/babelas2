@@ -14,9 +14,6 @@ This installation procedure have been tested with the following operation system
 *Unzip BabelAS2.vN.MM.zip in a folder `<`Install`>`.*
 
 *Install CAPICOM:*
-
-*_Remark:_* You can download the "capicom.dll" yourself directly from Microsoft at [http://www.microsoft.com/downloads/details.aspx?FamilyID=860EE43A-A843-462F-ABB5-FF88EA5896F6&displaylang=en].
-
  # Copy "`<`Install`>`\BabelAS2\tags\vN.MM\Setup\capicom.dll" to "C:\WINDOWS\system32"
  # Click on Start/Programs/Accessories/Command Prompt
  # Type "C:"
@@ -24,6 +21,8 @@ This installation procedure have been tested with the following operation system
  # Type "regsvr32.exe capicom.dll"
  # Click on the "OK" button.
  # Type "exit"
+
+*_Remark:_* You can download the "capicom.dll" yourself directly from Microsoft at [http://www.microsoft.com/downloads/details.aspx?FamilyID=860EE43A-A843-462F-ABB5-FF88EA5896F6&displaylang=en].
 
 *Install the test certificate(s) and private key(s):*
  # Double-click on "`<`Install`>`\BabelAS2\tags\vN.MM\Setup\BabelAS2.msc"
@@ -138,6 +137,8 @@ In order to receive messages, we recommend that you create a dedicated web site 
  # Type "cd `<`Install`>`\BabelAS2\tags\vN.MM\Setup"
  # Type "winhttpcertcfg -g -c LOCAL_MACHINE\My -s "BabelAS2 Test Server" -a BabelAS2"
  # Type "exit".
+
+*_Remark:_* You can download the Windows HTTP Services Certificate Configuration Tool (WinHttpCertCfg.exe) yourself directly from Microsoft at [http://www.microsoft.com/downloads/details.aspx?familyid=c42e27ac-3409-40e9-8667-c748e422833f&displaylang=en].
 
 *Create the BabelAS2 virtual directory (Windows XP):*
  # Expand the "Internet Information Services" node
