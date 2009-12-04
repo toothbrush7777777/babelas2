@@ -86,8 +86,8 @@ In order to receive messages, we recommend that you create a dedicated web site 
  # Check "Allow anonymous access to this Web site
  # Click on the "Next" button
  # Check "Read"
- # Check "Run scripts (such as ASP)
- # Uncheck "Execute (such as ISAPI applications or CGI)
+ # Check "Run scripts (such as ASP)"
+ # Uncheck "Execute (such as ISAPI applications or CGI)"
  # Uncheck "Write"
  # Uncheck "Browse"
  # Click on the "Next" button
@@ -149,8 +149,8 @@ In order to receive messages, we recommend that you create a dedicated web site 
  # Click on the "OK" button
  # Click on the "Next" button
  # Check "Read"
- # Check "Run scripts (such as ASP)
- # Uncheck "Execute (such as ISAPI applications or CGI)
+ # Check "Run scripts (such as ASP)"
+ # Uncheck "Execute (such as ISAPI applications or CGI)"
  # Uncheck "Write"
  # Uncheck "Browse"
  # Click on the "Next" button
