@@ -211,7 +211,7 @@ Send a test message to your BabelAS2 server:
   1. Click on Start/Programs/Accessories/Windows Explorer
   2. Select "<Install>\Send.vbs"
   3. Right-click on "Send.vbs" and select "Edit"
-  4. Go to the line 21 and replace "http://babelas2.babelabout.net/" by "babelas2.domain.net" (Windows 2003) or "http://localhost/BabelAS2/Receive.asp" (Windows XP)
+  4. Go to the line 21 and replace "http://babelas2.babelabout.net/" by "http://babelas2.domain.net/" (Windows 2003) or "http://localhost/BabelAS2/Receive.asp" (Windows XP)
   5. Click on "File/Save"
   6. Click on "File/Exit"
   7. Double-click on "<Install>\Send.vbs"
