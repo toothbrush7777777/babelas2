@@ -205,7 +205,7 @@ In order to receive messages, we recommend that you create a dedicated web site 
  # Click on Start/Programs/Accessories/Windows Explorer
  # Select "`<`Install`>`\Send.vbs"
  # Right-click on "Send.vbs" and select "Edit"
- # Go to the line 21 and replace "http://babelas2.babelabout.net/" by "babelas2.domain.net" (Windows 2003) or "http://localhost/BabelAS2/Receive.asp" (Windows XP)
+ # Go to the line 21 and replace "http://babelas2.babelabout.net/" by "http://babelas2.domain.net/" (Windows 2003) or "http://localhost/BabelAS2/Receive.asp" (Windows XP)
  # Click on "File/Save"
  # Click on "File/Exit"
  # Double-click on "`<`Install`>`\Send.vbs"
