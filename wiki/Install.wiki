@@ -12,7 +12,7 @@ This installation procedure have been tested with the following operation system
  * Windows 2003 Server with IIS V6.0
 
 *Extract BabelAS2.v0.03.zip:*
- # Create your "`<`Install`>`" folder, e.g. "C:\Program Files\BabelAS2".
+ # Create your "`<`Install`>`" folder, e.g. "C:\Program Files\BabelAS2"
  # Extract "BabelAS2.v0.03.zip" with path names in your "`<`Install`>`" folder.
 
 *Install CAPICOM:*
