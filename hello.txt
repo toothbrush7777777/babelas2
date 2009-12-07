@@ -1,6 +1,10 @@
 [Select this text and press F5 (in Notepad)]
 This is a test message sent with BabelAS2 - http://code.google.com/p/babelas2/
 
+If you want to test your AS2 client, you can use the BabelAS2 Test Server, go to http://www.babelabout.com/babelas2.html to get all the connection details.
+
+If you would prefer a NO SOFTWARE to manage your AS2 connections, go to http://www.AS2Box.net/ ;-)
+
 There is a CRLF at the end!
 
 /Babelabout - http://babelabout.blogspot.com/
