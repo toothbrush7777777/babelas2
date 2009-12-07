@@ -1,8 +1,8 @@
-#summary How to install and configure BabelAS2.
+#summary How to install and configure BabelAS2 version 0.03.
 
 = Introduction =
 
-This guide gives you a exhaustive step-by-step procedure for installing and configuring *BabelAS2*.
+This guide gives you a exhaustive step-by-step procedure for installing and configuring *BabelAS2* version 0.03.
 
 
 = Installation =
@@ -11,10 +11,12 @@ This installation procedure have been tested with the following operation system
  * Windows XP with IIS V5.1
  * Windows 2003 Server with IIS V6.0
 
-*Unzip BabelAS2.vN.MM.zip in a folder `<`Install`>`.*
+*Extract BabelAS2.v0.03.zip:*
+ # Create your "`<`Install`>`" folder, e.g. "C:\Program Files\BabelAS2".
+ # Extract "BabelAS2.v0.03.zip" with path names in your "`<`Install`>`" folder.
 
 *Install CAPICOM:*
- # Copy "`<`Install`>`\BabelAS2\tags\vN.MM\Setup\capicom.dll" to "C:\WINDOWS\system32"
+ # Copy "`<`Install`>`\Setup\capicom.dll" to "C:\WINDOWS\system32"
  # Click on Start/Programs/Accessories/Command Prompt
  # Type "C:"
  # Type "cd C:\WINDOWS\system32"
@@ -25,13 +27,13 @@ This installation procedure have been tested with the following operation system
 *_Remark:_* You can download the "capicom.dll" yourself directly from Microsoft at [http://www.microsoft.com/downloads/details.aspx?FamilyID=860EE43A-A843-462F-ABB5-FF88EA5896F6&displaylang=en].
 
 *Install the test certificate(s) and private key(s):*
- # Double-click on "`<`Install`>`\BabelAS2\tags\vN.MM\Setup\BabelAS2.msc"
+ # Double-click on "`<`Install`>`\Setup\BabelAS2.msc"
  # Expand the "Certificates (Local Computer)" node
  # Right-click on "Personal" and select "All Tasks/Import..."
  # Click on the "Next" button.
  # Click on the "Browse..." button
  # Select "Personal Information Exchange (`*`.pfx;`*`.p12)" in the "Files of type:" drop-down list
- # Select "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Client.pfx"
+ # Select "`<`Install`>`\Cert\BabelAS2`_`Test`_`Client.pfx"
  # Click on the "Open" button
  # Click on the "Next" button
  # Type "test" in the "Password:" edit box
@@ -40,18 +42,18 @@ This installation procedure have been tested with the following operation system
  # Click on the "Next" button.
  # Click on the "Finish" button.
  # Click on the "OK" button.
- # Repeat from step *3*, with selecting "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Server.pfx" at step *7*.
+ # Repeat from step *3*, with selecting "`<`Install`>`\Cert\BabelAS2`_`Test`_`Server.pfx" at step *7*.
 
-*_Remark:_* If you only send messages, you can import "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Server.*cer*" instead. And, if you only want to receive, you can import "`<`Install`>`\BabelAS2\tags\vN.MM\Cert\BabelAS2`_`Test`_`Client.*cer*".
+*_Remark:_* If you only send messages, you can import "`<`Install`>`\Cert\BabelAS2`_`Test`_`Server.*cer*" instead. And, if you only want to receive, you can import "`<`Install`>`\Cert\BabelAS2`_`Test`_`Client.*cer*".
 
 *Send a test message to the _BabelAS2 Test Server_:*
- # Double-click on "`<`Install`>`\BabelAS2\tags\vN.MM\Send.vbs"
+ # Double-click on "`<`Install`>`\Send.vbs"
  # Click on the "OK" button
  # Go to [http://babelas2.babelabout.net/Test/] to check if your test message has arrived
  # Report any problem (or success) to [mailto:babelabout@gmail.com] ;-)
 
 *Create the BabelAS2 user:*
- # Double-click on "`<`Install`>`\BabelAS2\tags\vN.MM\Setup\BabelAS2.msc" (if needed)
+ # Double-click on "`<`Install`>`\BabelAS2.msc" (if needed)
  # Expand the "Local User and Groups (Local)" node
  # Right-click on "Users" and select "New User..."
  # Type "BabelAS2" in the "User name:" edit box
@@ -83,7 +85,7 @@ In order to receive messages, we recommend that you create a dedicated web site 
  # Type "babelas2.domain.net" in the "Host header for this Web site (Default: None):" edit box
  # Click on the "Next" button
  # Click on the "Browse..." button
- # Select "`<`Install`>`\BabelAS2\tags\vN.MM\Receive"
+ # Select "`<`Install`>`\Receive"
  # Click on the "OK" button
  # Check "Allow anonymous access to this Web site
  # Click on the "Next" button
@@ -123,7 +125,7 @@ In order to receive messages, we recommend that you create a dedicated web site 
  # Click on the "OK" button
  # Click on the "OK" button
  # Click on Start/Programs/Accessories/Windows Explorer
- # Select "`<`Install`>`\BabelAS2\tags\vN.MM\Data"
+ # Select "`<`Install`>`\Data"
  # Right-click on "Data" and select "Properties"
  # Click on the "Security" tab
  # Click on the "Add..." button
@@ -134,7 +136,7 @@ In order to receive messages, we recommend that you create a dedicated web site 
  # Click on the "OK" button
  # Click on Start/Programs/Accessories/Command Prompt
  # Type "C:"
- # Type "cd `<`Install`>`\BabelAS2\tags\vN.MM\Setup"
+ # Type "cd `<`Install`>`\Setup"
  # Type "winhttpcertcfg -g -c LOCAL_MACHINE\My -s "BabelAS2 Test Server" -a BabelAS2"
  # Type "exit".
 
@@ -149,7 +151,7 @@ In order to receive messages, we recommend that you create a dedicated web site 
  # Type "BabelAS2" in the "Alias:" edit box
  # Click on the "Next" button
  # Click on the "Browse..." button
- # Select "`<`Install`>`\BabelAS2\tags\vN.MM\Receive"
+ # Select "`<`Install`>`\Receive"
  # Click on the "OK" button
  # Click on the "Next" button
  # Check "Read"
@@ -184,7 +186,7 @@ In order to receive messages, we recommend that you create a dedicated web site 
  # Click on the "OK" button
  # Click on the "OK" button
  # Click on Start/Programs/Accessories/Windows Explorer
- # Select "`<`Install`>`\BabelAS2\tags\vN.MM\Data"
+ # Select "`<`Install`>`\Data"
  # Right-click on "Data" and select "Properties"
  # Click on the "Security" tab
  # Click on the "Add..." button
@@ -195,18 +197,18 @@ In order to receive messages, we recommend that you create a dedicated web site 
  # Click on the "OK" button
  # Click on Start/Programs/Accessories/Command Prompt
  # Type "C:"
- # Type "cd `<`Install`>`\BabelAS2\tags\vN.MM\Setup"
+ # Type "cd `<`Install`>`\Setup"
  # Type "winhttpcertcfg -g -c LOCAL_MACHINE\My -s "BabelAS2 Test Server" -a BabelAS2"
  # Type "exit".
 
 *Send a test message to your BabelAS2 server:*
  # Click on Start/Programs/Accessories/Windows Explorer
- # Select "`<`Install`>`\BabelAS2\tags\vN.MM\Send.vbs"
+ # Select "`<`Install`>`\Send.vbs"
  # Right-click on "Send.vbs" and select "Edit"
  # Go to the line 21 and replace "http://babelas2.babelabout.net/" by "babelas2.domain.net" (Windows 2003) or "http://localhost/BabelAS2/Receive.asp" (Windows XP)
  # Click on "File/Save"
  # Click on "File/Exit"
- # Double-click on "`<`Install`>`\BabelAS2\tags\vN.MM\Send.vbs"
+ # Double-click on "`<`Install`>`\Send.vbs"
  # Click on the "OK" button
- # Go to "`<`Install`>`\BabelAS2\tags\vN.MM\Data to check if your test message has arrived
+ # Go to "`<`Install`>`\Data to check if your test message has arrived
  # Report any problem (or success) to [mailto:babelabout@gmail.com] ;-)
