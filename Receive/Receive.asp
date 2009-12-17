@@ -1,11 +1,23 @@
 <% Option Explicit
 
+Dim strGUID: strGUID = CreateGUID()
+Trace strGUID, "strGUID = """ & strGUID & """."
+
 Dim strContentType: strContentType = Request.ServerVariables("HTTP_Content_Type")
 Dim strAS2From: strAS2From = Request.ServerVariables("HTTP_AS2_From")
 Dim strAS2To: strAS2To = Request.ServerVariables("HTTP_AS2_To")
 Dim strMessageId: strMessageId = Request.ServerVariables("HTTP_Message_Id")
+Dim strContentTransferEncoding: strContentTransferEncoding = Request.ServerVariables("HTTP_Content_Transfer_Encoding")
 Dim strDispositionNotificationTo: strDispositionNotificationTo = Request.ServerVariables("HTTP_Disposition_Notification_To")
 Dim strDispositionNotificationOptions: strDispositionNotificationOptions = Request.ServerVariables("HTTP_Disposition_Notification_Options")
+
+' Dump the HTTP Headers:
+Dim fsoHeaders: Set fsoHeaders = CreateObject("Scripting.FileSystemObject")
+Dim stmHeaders: Set stmHeaders = fsoHeaders.CreateTextFile(Server.MapPath("..\Data\" & strGUID & ".headers.txt"), False)
+stmHeaders.Write CStr(Request.ServerVariables("ALL_RAW"))
+stmHeaders.Close
+Set stmHeaders = Nothing
+Set fsoHeaders = Nothing
 
 'Get the HTTP payload:
 If Request.TotalBytes = 0 Then
@@ -17,20 +29,50 @@ Dim stm: Set stm = CreateObject("ADODB.Stream")
 stm.Open
 stm.Type = 1 'adTypeBinary
 stm.Write Request.BinaryRead(Request.TotalBytes)
-Dim strData: strData = CRYPTO_Decrypt(stm)
+stm.SaveToFile Server.MapPath("..\Data\" & strGUID & ".encrypted.txt")
+Dim strData: strData = ""
+If LCase(strContentTransferEncoding) = "base64" Then
+  strData = CRYPTO_Decrypt(stm, "us-ascii")
+Else
+  strData = CRYPTO_Decrypt(stm, "unicode")
+End If
+Trace strGUID, "strPayloadPart = [start from the next line, and we add an additional CRLF at the end]" & vbCrLf & strData & vbCrLf
+
+'Serialise the AS2 payload:
+stm.Open
+stm.Type = 2 'adTypeText
+stm.Charset = "us-ascii"
+stm.WriteText strData
+stm.SaveToFile Server.MapPath("..\Data\" & strGUID & ".decrypted.txt")
+stm.Close
 
 'Verify the signature:
 Dim nPos: nPos = 0
+Trace strGUID, "nPos = " & CStr(nPos)
 Dim strBoundary: strBoundary = Extract(1, strData, "boundary=""", """", nPos)
+Trace strGUID, "strBoundary = """ & strBoundary & """."
+Trace strGUID, "nPos = " & CStr(nPos)
 Dim strPayloadPart: strPayloadPart = Extract(1, strData, _
   vbCrLf & "--" & strBoundary & vbCrLf, _
   vbCrLf & "--" & strBoundary & vbCrLf, nPos)
-Dim strPayLoad: strPayLoad = Extract(1, strPayloadPart, vbCrLf & vbCrLf, "", nPos)
+Trace strGUID, "strPayloadPart = [start from the next line, and we add an additional CRLF at the end]" & vbCrLf & strPayloadPart & vbCrLf
+Trace strGUID, "nPos = " & CStr(nPos)
+'WARNING: The "Signature Part" must be after "Payload Part", see usage of "nPos" ;-)
 Dim strSignaturePart: strSignaturePart = Extract(nPos, strData, _
   vbCrLf & "--" & strBoundary & vbCrLf, _
   vbCrLf & "--" & strBoundary & "--", nPos)
+Trace strGUID, "strSignaturePart = [start from the next line, and we add an additional CRLF at the end]" & vbCrLf & strSignaturePart & vbCrLf
+Trace strGUID, "nPos = " & CStr(nPos)
+Dim strPayLoad: strPayLoad = Extract(1, strPayloadPart, vbCrLf & vbCrLf, "", nPos)
+Trace strGUID, "strPayLoad = [start from the next line, and we add an additional CRLF at the end]" & vbCrLf & strPayLoad & vbCrLf
+Trace strGUID, "nPos = " & CStr(nPos)
 Dim strSignature: strSignature = Extract(1, strSignaturePart, vbCrLf & vbCrLf, "", nPos)
-If Not CRYPTO_Verify(strPayloadPart, strSignature) Then
+Trace strGUID, "strSignature = [start from the next line, and we add an additional CRLF at the end]" & vbCrLf & strSignature & vbCrLf
+Trace strGUID, "nPos = " & CStr(nPos)
+If CRYPTO_Verify(strPayloadPart, strSignature) Then
+  Trace strGUID, "The signature is verified."
+Else
+  Trace strGUID, "ERROR: There is a problem with the signature!"
   Response.Status = "406 Not Acceptable"
   Response.End
 End If
@@ -40,11 +82,11 @@ stm.Open
 stm.Type = 2 'adTypeText
 stm.Charset = "us-ascii"
 stm.WriteText strPayLoad
-stm.SaveToFile Server.MapPath("..\Data\" & CStr(Session.SessionID) & ".txt")
+stm.SaveToFile Server.MapPath("..\Data\" & strGUID & ".payload.txt")
 stm.Close
 
 Dim strMyCertThumbprint: strMyCertThumbprint = ""
-If strAS2To = "BabelAS2 Test Server" Then
+If strAS2To = """BabelAS2 Test Server""" Then
   strMyCertThumbprint = "67 8f a8 49 b4 7c 7c 94 8e b0 8b ab 0b e8 be fc 65 68 ab 33"
 Else
   Response.Status = "406 Not Acceptable"
@@ -92,7 +134,7 @@ Response.AddHeader "AS2-Version", "1.1"
 Response.AddHeader "Subject", "Message Disposition Notification"
 Response.AddHeader "Content-Description", "MIME Message"
 Response.AddHeader "Mime-Version", "1.0"
-Response.AddHeader "Message-Id", "<" & CStr(Session.SessionID) & "@BA>"
+Response.AddHeader "Message-Id", "<" & strGUID & "@BabelAS2>"
 Response.ContentType = "multipart/signed; micalg=sha1; protocol=""application/pkcs7-signature""; " & _
     "boundary=""GLOBALMDNboundary=="""
 Response.Write strMDN
@@ -114,12 +156,12 @@ Private Function Extract(nStartPos, str, strStartSearchString, strStopSearchStri
   End If
 End Function
 
-Private Function CRYPTO_Decrypt(stmData) 'As String
+Private Function CRYPTO_Decrypt(stmData, strCharset) 'As String
   Dim oEnvelopedData: Set oEnvelopedData = CreateObject("CAPICOM.EnvelopedData")
   oEnvelopedData.Algorithm.Name = 3 'CAPICOM_ENCRYPTION_ALGORITHM_3DES
   stmData.Position = 0
   stmData.Type = 2 'adTypeText
-  stmData.Charset = "us-ascii"
+  stmData.Charset = strCharset
   Dim strData: strData = stmData.ReadText
   oEnvelopedData.Decrypt strData
   stmData.Close
@@ -205,10 +247,10 @@ Private Function CRYPTO_Verify(strData, strSignature) ' As Boolean
   stm.Charset = "us-ascii"
   stm.WriteText strData
   stm.Position = 0
-  stm.Type = 1 'adTypeBinary
+  stm.Type = 1' adTypeBinary
   Dim oSignedData: Set oSignedData = CreateObject("CAPICOM.SignedData")
   oSignedData.Content = stm.Read
-  'On Error Resume Next
+  On Error Resume Next
   oSignedData.Verify _
     strSignature, _
     True, _
@@ -223,4 +265,38 @@ Private Function CRYPTO_Verify(strData, strSignature) ' As Boolean
   Set stm = Nothing
   Set oSignedData = Nothing
 End Function
+
+Function CreateGUID()
+  Dim tl: Set tl = CreateObject("Scriptlet.TypeLib")
+  CreateGUID = Mid(tl.Guid, 2, 36)
+  Set tl = Nothing
+End Function
+
+'------------------------------------------------------------------------------
+Sub Trace(strGUID, strMessage)
+  Dim dtNow: dtNow = Now
+  Dim strResult: strResult = CStr(Year(dtNow))
+  Dim str: str = CStr(Month(dtNow))
+  If Len(str) = 1 Then str = "0" & str End If
+  strResult = strResult & "-" & str
+  str = CStr(Day(dtNow))
+  If Len(str) = 1 Then str = "0" & str End If
+  strResult = strResult & "-" & str
+  str = CStr(Hour(dtNow))
+  If Len(str) = 1 Then str = "0" & str End If
+  strResult = strResult & "T" & str
+  str = CStr(Minute(dtNow))
+  If Len(str) = 1 Then str = "0" & str End If
+  strResult = strResult & ":" & str
+  str = CStr(Second(dtNow))
+  If Len(str) = 1 Then str = "0" & str End If
+  strResult = strResult & ":" & str
+
+  Dim fso: Set fso = CreateObject("Scripting.FileSystemObject")
+  Dim stm: Set stm = fso.OpenTextFile(Server.MapPath("..\Log\" & strGUID & ".BabelAS2.log"), 8, True)
+  stm.Write strResult & "|" & strMessage & vbCrLf
+  stm.Close
+  Set stm = Nothing
+  Set fso = Nothing
+End Sub
 %>
