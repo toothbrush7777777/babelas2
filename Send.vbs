@@ -14,12 +14,12 @@ Option Explicit
 
 'This is the configuration to send a message to the BabelAS2 test server:
 Dim strMDN: strMDN = SendAS2( _
-  "BabelAS2 Test Client", _
+  """BabelAS2 Test Client""", _
   "a5 bc 87 4a b5 96 9d c4 11 d1 5a 93 ac 49 cf 74 1a 12 29 97", _
   "hello.txt", _
   "plain/text", _
   "http://babelas2.babelabout.net/", _
-  "BabelAS2 Test Server", _
+  """BabelAS2 Test Server""", _
   "67 8f a8 49 b4 7c 7c 94 8e b0 8b ab 0b e8 be fc 65 68 ab 33")
 WScript.Echo strMDN
 
@@ -33,7 +33,7 @@ Public Function SendAS2( _
   strPartnerCertThumbprint)
 
   Dim strGUID: strGUID = CreateGUID()
-  Dim xhttp: Set xhttp = CreateObject("MSXML2.ServerXMLHTTP.4.0")
+  Dim xhttp: Set xhttp = CreateObject("MSXML2.ServerXMLHTTP")
   xhttp.open "POST", strPartnerURL, False
   xhttp.setRequestHeader "Connection", "close"
   xhttp.setRequestHeader "Message-Id", "<" & strGUID & "@BabelAS2>"
@@ -58,7 +58,6 @@ Public Function SendAS2( _
   stm.Charset = "ascii"
   Dim str: str = _
     "Content-Type: " & strContentType & "; name=""" & strFileName & """" & vbCrLf & _
-    "Content-Transfer-Encoding: binary" & vbCrLf & _
     "Content-Disposition: attachment; filename=""" & strFileName & """" & vbCrLf & _
     vbCrLf & _
     stm.ReadText()
