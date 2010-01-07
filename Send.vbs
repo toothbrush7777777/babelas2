@@ -33,8 +33,10 @@ Public Function SendAS2( _
   strPartnerCertThumbprint)
 
   Dim strGUID: strGUID = CreateGUID()
-  Dim xhttp: Set xhttp = CreateObject("MSXML2.ServerXMLHTTP")
+  Dim xhttp: Set xhttp = CreateObject("MSXML2.ServerXMLHTTP.4.0")
+  'xhttp.setProxy "2", "<proxy-host-name-or-IP>:<Port>", ""
   xhttp.open "POST", strPartnerURL, False
+  'xhttp.setProxyCredentials "<Username>", "<Password>"
   xhttp.setRequestHeader "Connection", "close"
   xhttp.setRequestHeader "Message-Id", "<" & strGUID & "@BabelAS2>"
   xhttp.setRequestHeader "Date", CStr(Now)
