@@ -13,7 +13,8 @@ Dim strDispositionNotificationOptions: strDispositionNotificationOptions = Reque
 
 ' Dump the HTTP Headers:
 Dim fsoHeaders: Set fsoHeaders = CreateObject("Scripting.FileSystemObject")
-Dim stmHeaders: Set stmHeaders = fsoHeaders.CreateTextFile(Server.MapPath("..\Data\" & strGUID & ".headers.txt"), False)
+Dim stmHeaders: Set stmHeaders = fsoHeaders.CreateTextFile(Server.MapPath( _
+  "..\Data\" & Request.ServerVariables("REMOTE_ADDR") & "_" & strGUID & ".headers.txt"), False)
 stmHeaders.Write CStr(Request.ServerVariables("ALL_RAW"))
 stmHeaders.Close
 Set stmHeaders = Nothing
@@ -29,7 +30,8 @@ Dim stm: Set stm = CreateObject("ADODB.Stream")
 stm.Open
 stm.Type = 1 'adTypeBinary
 stm.Write Request.BinaryRead(Request.TotalBytes)
-stm.SaveToFile Server.MapPath("..\Data\" & strGUID & ".encrypted.txt")
+stm.SaveToFile Server.MapPath( _
+  "..\Data\" & Request.ServerVariables("REMOTE_ADDR") & "_" & strGUID & ".encrypted.txt")
 Dim strData: strData = ""
 If LCase(strContentTransferEncoding) = "base64" Then
   strData = CRYPTO_Decrypt(stm, "us-ascii")
@@ -43,7 +45,8 @@ stm.Open
 stm.Type = 2 'adTypeText
 stm.Charset = "us-ascii"
 stm.WriteText strData
-stm.SaveToFile Server.MapPath("..\Data\" & strGUID & ".decrypted.txt")
+stm.SaveToFile Server.MapPath( _
+  "..\Data\" & Request.ServerVariables("REMOTE_ADDR") & "_" & strGUID & ".decrypted.txt")
 stm.Close
 
 'Verify the signature:
@@ -82,7 +85,8 @@ stm.Open
 stm.Type = 2 'adTypeText
 stm.Charset = "us-ascii"
 stm.WriteText strPayLoad
-stm.SaveToFile Server.MapPath("..\Data\" & strGUID & ".payload.txt")
+stm.SaveToFile Server.MapPath( _
+  "..\Data\" & Request.ServerVariables("REMOTE_ADDR") & "_" & strGUID & ".payload.txt")
 stm.Close
 
 Dim strMyCertThumbprint: strMyCertThumbprint = ""
@@ -293,7 +297,8 @@ Sub Trace(strGUID, strMessage)
   strResult = strResult & ":" & str
 
   Dim fso: Set fso = CreateObject("Scripting.FileSystemObject")
-  Dim stm: Set stm = fso.OpenTextFile(Server.MapPath("..\Log\" & strGUID & ".BabelAS2.log"), 8, True)
+  Dim stm: Set stm = fso.OpenTextFile(Server.MapPath( _
+    "..\Log\" & Request.ServerVariables("REMOTE_ADDR") & "_" & strGUID & ".BabelAS2.log"), 8, True)
   stm.Write strResult & "|" & strMessage & vbCrLf
   stm.Close
   Set stm = Nothing

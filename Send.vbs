@@ -84,6 +84,9 @@ Public Function SendAS2( _
   stm.WriteText str
   stm.Position = 0 ' 'This line is mandatory!
   xhttp.send stm
+
+  WScript.Echo CStr(xhttp.status) & " " & xhttp.statusText
+
   SendAS2 = xhttp.responseText
 
   Dim fsoMDN: Set fsoMDN = CreateObject("Scripting.FileSystemObject")
