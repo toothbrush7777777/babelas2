@@ -1,0 +1,19 @@
+Subversion Info: $Id$
+
+http://www.openssl.org/
+
+http://www.slproweb.com/download/Win32OpenSSL-0_9_8i.exe
+
+Then, from "C:\OpenSSL\bin" I ran the following commands (after creating the "C:\BabelAS2\cert\" folder):
+
+1. Generating a pair of keys of 1024 bytes:
+
+openssl genrsa -des3 -out "C:\BabelAS2\cert\MyCompany.pair-of-keys.pem" 1024
+
+2. Generate a self signed certificate file (.cer) to distribute the public key:
+
+openssl req -new -x509 -key "C:\BabelAS2\cert\MyCompany.pair-of-keys.pem" -out "C:\BabelAS2\cert\MyCompany.cer" -days 1095
+
+3. Generate a .pfx (PKCS#12) file containing the private key:
+
+openssl pkcs12 -export -in "C:\BabelAS2\cert\MyCompany.cer" -inkey "C:\BabelAS2\cert\MyCompany.pair-of-keys.pem" -out "C:\BabelAS2\cert\MyCompany.pfx"
