@@ -34,9 +34,9 @@ stm.SaveToFile Server.MapPath( _
   "..\Data\" & Request.ServerVariables("REMOTE_ADDR") & "_" & strGUID & ".encrypted.txt")
 Dim strData: strData = ""
 If LCase(strContentTransferEncoding) = "base64" Then
-  strData = CRYPTO_Decrypt(stm, "us-ascii")
+  strData = CRYPTO_Decrypt(stm, 2)
 Else
-  strData = CRYPTO_Decrypt(stm, "unicode")
+  strData = CRYPTO_Decrypt(stm, 1)
 End If
 Trace strGUID, "strPayloadPart = [start from the next line, and we add an additional CRLF at the end]" & vbCrLf & strData & vbCrLf
 
@@ -160,25 +160,33 @@ Private Function Extract(nStartPos, str, strStartSearchString, strStopSearchStri
   End If
 End Function
 
-Private Function CRYPTO_Decrypt(stmData, strCharset) 'As String
+Private Function CRYPTO_Decrypt(stmData, nType) 'As String
+  Dim oUtils: Set oUtils = CreateObject("CAPICOM.Utilities")
   Dim oEnvelopedData: Set oEnvelopedData = CreateObject("CAPICOM.EnvelopedData")
   oEnvelopedData.Algorithm.Name = 3 'CAPICOM_ENCRYPTION_ALGORITHM_3DES
-  stmData.Position = 0
-  stmData.Type = 2 'adTypeText
-  stmData.Charset = strCharset
-  Dim strData: strData = stmData.ReadText
+  Dim strData: strData = ""
+  If nType = 1 Then
+    strData = oUtils.ByteArrayToBinaryString(stmData.Read(-1))
+  Else
+    stmData.Position = 0
+    stmData.Type = 2 'adTypeText
+    stmData.Charset = "us-ascii"
+    strData = stmData.ReadText
+  End If
   oEnvelopedData.Decrypt strData
   stmData.Close
   stmData.Open
-  stmData.Type = 2 'adTypeText
-  stmData.Charset = "unicode"
-  stmData.WriteText oEnvelopedData.Content
+  stmData.Type = 1
+  stmData.Write oUtils.BinaryStringToByteArray(oEnvelopedData.Content)
   Set oEnvelopedData = Nothing
   stmData.Position = 0
+  stmData.Type = 2
   stmData.Charset = "us-ascii"
-  stmData.Position = 2
   CRYPTO_Decrypt = stmData.ReadText
   stmData.Close
+
+  Set oEnvelopedData = Nothing
+  Set oUtils = Nothing
 End Function
 
 Private Function CRYPTO_SHA1(strData) 'As String
