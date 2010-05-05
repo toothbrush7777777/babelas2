@@ -32,11 +32,9 @@ Public Function SendAS2( _
   strPartnerAS2Id, _
   strPartnerCertThumbprint)
 
-  Dim strGUID: strGUID = CreateGUID()
-  Dim xhttp: Set xhttp = CreateObject("MSXML2.ServerXMLHTTP.4.0")
-  'xhttp.setProxy "2", "<proxy-host-name-or-IP>:<Port>", ""
+  Dim strGUID: strGUID = UTIL_CreateGUID()
+  Dim xhttp: Set xhttp = CreateObject("MSXML2.ServerXMLHTTP")
   xhttp.open "POST", strPartnerURL, False
-  'xhttp.setProxyCredentials "<Username>", "<Password>"
   xhttp.setRequestHeader "Connection", "close"
   xhttp.setRequestHeader "Message-Id", "<" & strGUID & "@BabelAS2>"
   xhttp.setRequestHeader "Date", CStr(Now)
@@ -56,39 +54,36 @@ Public Function SendAS2( _
   stm.Open
   stm.Type = 1 'This line is mandatory, otherwise you get the "FF FE" :-/
   stm.LoadFromFile strFileName
-  stm.Type = 2
-  stm.Charset = "ascii"
-  Dim str: str = _
+  Dim bstrMIME: bstrMIME = UTIL_ASCIIStringToBinaryString( _
     "Content-Type: " & strContentType & "; name=""" & strFileName & """" & vbCrLf & _
     "Content-Disposition: attachment; filename=""" & strFileName & """" & vbCrLf & _
-    vbCrLf & _
-    stm.ReadText()
-  str = _
+    vbCrLf) & _
+    UTIL_ByteArrayToBinaryString(stm.Read)
+  stm.Close
+  bstrMIME = UTIL_ASCIIStringToBinaryString( _
     "MIME-Version: 1.0" & vbCrLf & _
     "Content-Type: multipart/signed; protocol=""application/pkcs7-signature""; micalg=sha1; boundary=""Part""" & vbCrLf & _
     vbCrLf & _
-    "--Part" & vbCrLf & _
-    str & vbCrLf & _
+    "--Part" & vbCrLf) & _
+    bstrMIME & _
+    UTIL_ASCIIStringToBinaryString(vbCrLf & _
     "--Part" & vbCrLf & _
     "Content-Type: application/pkcs7-signature; name=""smime.p7s""" & vbCrLf & _
     "Content-Disposition: attachment; filename=""smime.p7s""" & vbCrLf & _
     "Content-Transfer-Encoding: base64" & vbCrLf & _
-    vbCrLf & _
-    CRYPTO_Sign(str, strMyCertThumbprint) & _
-    "--Part--"
-  str = CRYPTO_Envelop(str, strPartnerCertThumbprint)
-  stm.Close
+    vbCrLf) & _
+    UTIL_ASCIIStringToBinaryString(CRYPTO_Sign(bstrMIME, strMyCertThumbprint)) & _
+    UTIL_ASCIIStringToBinaryString("--Part--")
+  Dim strBase64: strBase64 = CRYPTO_Encrypt(bstrMIME, strPartnerCertThumbprint)
   stm.Open
   stm.Type = 2
   stm.Charset = "ascii"
-  stm.WriteText str
-  stm.Position = 0 ' 'This line is mandatory!
+  stm.WriteText strBase64
+  stm.Position = 0 'This line is mandatory!
   xhttp.send stm
-
+  stm.Close
   WScript.Echo CStr(xhttp.status) & " " & xhttp.statusText
-
   SendAS2 = xhttp.responseText
-
   Dim fsoMDN: Set fsoMDN = CreateObject("Scripting.FileSystemObject")
   Dim stmMDN: Set stmMDN = fsoMDN.CreateTextFile("MDN." & strGUID & ".txt", False)
   stmMDN.Write xhttp.responseText
@@ -96,9 +91,35 @@ Public Function SendAS2( _
   Set stmMDN = Nothing
   Set fsoMDN = Nothing
 
-  stm.Close
   Set stm = Nothing
   Set xhttp = Nothing
+End Function
+
+Function UTIL_CreateGUID()
+  Dim tl: Set tl = CreateObject("Scriptlet.TypeLib")
+  UTIL_CreateGUID = Mid(tl.Guid, 2, 36)
+  Set tl = Nothing
+End Function
+
+Function UTIL_ByteArrayToBinaryString(aobContent)
+  Dim oUtils: Set oUtils = CreateObject("CAPICOM.Utilities")
+  UTIL_ByteArrayToBinaryString = oUtils.ByteArrayToBinaryString(aobContent)
+  Set oUtils = Nothing
+End Function
+
+Function UTIL_ASCIIStringToBinaryString(str)
+  Dim stm: Set stm = CreateObject("ADODB.Stream")
+  stm.Open
+  stm.Type = 2
+  stm.Charset = "iso-8859-1"
+  stm.WriteText str
+  stm.Position = 0
+  stm.Type = 1
+  Dim oUtils: Set oUtils = CreateObject("CAPICOM.Utilities")
+  UTIL_ASCIIStringToBinaryString = oUtils.ByteArrayToBinaryString(stm.Read)
+  stm.Close
+  Set oUtils = Nothing
+  Set stm = Nothing
 End Function
 
 Private Function CRYPTO_GetCertificate(strCertThumbprint) 'As CAPICOM.Certificate
@@ -118,47 +139,23 @@ Private Function CRYPTO_GetCertificate(strCertThumbprint) 'As CAPICOM.Certificat
   Set st = Nothing
 End Function
 
-Private Function CRYPTO_Sign(strData, strCertThumbprint) 'As String
+Function CRYPTO_Sign(bstrContent, strCertThumbprint) 'As (base64) String
   Const CAPICOM_ENCODE_BASE64 = 0
   Dim oSignedData: Set oSignedData = CreateObject("CAPICOM.SignedData")
   Dim oSigner: Set oSigner = CreateObject("CAPICOM.Signer")
-  Dim stm: Set stm = CreateObject("ADODB.Stream")
-  stm.Open
-  stm.Type = 2
-  stm.Charset = "ascii"
-  stm.WriteText strData
-  stm.Position = 0
-  stm.Type = 1
-  oSignedData.Content = stm.Read
+  oSignedData.Content = bstrContent
   oSigner.Certificate = CRYPTO_GetCertificate(strCertThumbprint)
   CRYPTO_Sign = oSignedData.Sign(oSigner, True, CAPICOM_ENCODE_BASE64)
-  stm.Close
-  Set stm = Nothing
   Set oSigner = Nothing
   Set oSignedData = Nothing
 End Function
 
-Private Function CRYPTO_Envelop(strData, strCertThumbprint) 'As String
+Function CRYPTO_Encrypt(bstrContent, strCertThumbprint) 'As (base64) String
   Const CAPICOM_ENCODE_BASE64 = 0
   Dim oEnvelopedData: Set oEnvelopedData = CreateObject("CAPICOM.EnvelopedData")
-  Dim stm: Set stm = CreateObject("ADODB.Stream")
-  stm.Open
-  stm.Type = 2
-  stm.Charset = "ascii"
-  stm.WriteText strData
-  stm.Position = 0
-  stm.Type = 1
   oEnvelopedData.Algorithm.Name = 3 'CAPICOM_ENCRYPTION_ALGORITHM_3DES
-  oEnvelopedData.Content = stm.Read
+  oEnvelopedData.Content = bstrContent
   oEnvelopedData.Recipients.Add CRYPTO_GetCertificate(strCertThumbprint)
-  CRYPTO_Envelop = oEnvelopedData.Encrypt(CAPICOM_ENCODE_BASE64)
-  stm.Close
-  Set stm = Nothing
+  CRYPTO_Encrypt = oEnvelopedData.Encrypt(CAPICOM_ENCODE_BASE64)
   Set oEnvelopedData = Nothing
-End Function
-
-Function CreateGUID()
-  Dim tl: Set tl = CreateObject("Scriptlet.TypeLib")
-  CreateGUID = Mid(tl.Guid, 2, 36)
-  Set tl = Nothing
 End Function
