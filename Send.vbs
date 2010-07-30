@@ -48,7 +48,7 @@ Public Function SendAS2( _
   xhttp.setRequestHeader "Content-Transfer-Encoding", "base64"
   xhttp.setRequestHeader "Content-Disposition", "attachment; filename=""smime.p7m"""
   xhttp.setRequestHeader "Disposition-notification-To", "babelabout@gmail.com"
-  xhttp.setRequestHeader "Disposition-notification-options", "signed-receipt-protocol=optional,pkcs7-signature;signed-receipt-micalg=optional,sha1"
+  'xhttp.setRequestHeader "Disposition-notification-options", "signed-receipt-protocol=optional,pkcs7-signature;signed-receipt-micalg=optional,sha1"
   xhttp.setRequestHeader "User-Agent", "BabelAS2 - http://code.google.com/p/babelas2/"
   Dim stm: Set stm = CreateObject("ADODB.Stream")
   stm.Open
