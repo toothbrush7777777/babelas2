@@ -99,12 +99,12 @@ End If
 
 'Create the MDN:
 Dim strUnsignedMDN: strUnsignedMDN = _
-  "--MDNboundary" & vbCrLf & _
+  "--MDNBoundary" & vbCrLf & _
   "Content-Type: text/plain; charset=""us-ascii""" & vbCrLf & _
   vbCrLf & _
   "This is an MDN." & vbCrLf & _
   vbCrLf & _
-  "--MDNboundary" & vbCrLf & _
+  "--MDNBoundary" & vbCrLf & _
   "Content-Type: message/disposition-notification" & vbCrLf & _
   vbCrLf & _
   "Original-Recipient: rfc822;" & strAS2To & vbCrLf & _
@@ -112,7 +112,7 @@ Dim strUnsignedMDN: strUnsignedMDN = _
   "Original-Message-ID: " & strMessageId & vbCrLf & _
   "Disposition: automatic-action/MDN-sent-automatically; processed" & vbCrLf & _
   vbCrLf & _
-  "--MDNboundary--" & vbCrLf
+  "--MDNBoundary--" & vbCrLf
 Dim strPartToBeSigned: strPartToBeSigned = _
   "Content-Type: multipart/report; report-type=disposition-notification; " & _
   "boundary=""MDNboundary""" & vbCrLf & _
