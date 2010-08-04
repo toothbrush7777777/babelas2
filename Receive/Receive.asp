@@ -98,6 +98,21 @@ Else
 End If
 
 'Create the MDN:
+Dim strUnsignedMDN: strUnsignedMDN = _
+  "--MDNboundary" & vbCrLf & _
+  "Content-Type: text/plain; charset=""us-ascii""" & vbCrLf & _
+  vbCrLf & _
+  "This is an MDN." & vbCrLf & _
+  vbCrLf & _
+  "--MDNboundary" & vbCrLf & _
+  "Content-Type: message/disposition-notification" & vbCrLf & _
+  vbCrLf & _
+  "Original-Recipient: rfc822;" & strAS2To & vbCrLf & _
+  "Final-Recipient: rfc822;" & strAS2From & vbCrLf & _
+  "Original-Message-ID: " & strMessageId & vbCrLf & _
+  "Disposition: automatic-action/MDN-sent-automatically; processed" & vbCrLf & _
+  vbCrLf & _
+  "--MDNboundary--" & vbCrLf
 Dim strPartToBeSigned: strPartToBeSigned = _
   "Content-Type: multipart/report; report-type=disposition-notification; " & _
   "boundary=""MDNboundary""" & vbCrLf & _
@@ -139,9 +154,17 @@ Response.AddHeader "Subject", "Message Disposition Notification"
 Response.AddHeader "Content-Description", "MIME Message"
 Response.AddHeader "Mime-Version", "1.0"
 Response.AddHeader "Message-Id", "<" & strGUID & "@BabelAS2>"
-Response.ContentType = "multipart/signed; micalg=sha1; protocol=""application/pkcs7-signature""; " & _
-    "boundary=""GLOBALMDNboundary=="""
-Response.Write strMDN
+'<Gary>
+If Len(strDispositionNotificationOptions) = 0 Then
+  Response.ContentType = "multipart/report; report-type=disposition-notification; " & _
+      "boundary=""MDNBoundary"""
+  Response.Write strUnsignedMDN
+Else 'Let's assume then want signed MDN ;-)
+  Response.ContentType = "multipart/signed; micalg=sha1; protocol=""application/pkcs7-signature""; " & _
+      "boundary=""GLOBALMDNboundary=="""
+  Response.Write strMDN
+End If
+'</Gary>
 Response.Status = "200 OK"
 Response.End
 
