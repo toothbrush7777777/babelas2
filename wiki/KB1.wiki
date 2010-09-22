@@ -1,13 +1,17 @@
 = Receive.asp, CAPICOM error 0x800A0005: CAPICOM_E_ENVELOP_RECIPIENT_NOT_FOUND =
 
-= Introduction =
+== SYMPTOMS ==
 
 Add your content here.
 
+== CAUSE ==
 
-= Details =
+Add your content here.
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+== RESOLUTION ==
+
+Add your content here.
+
+== STATUS ==
+
+This behavior is by design.
