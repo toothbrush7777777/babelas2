@@ -1,6 +1,6 @@
 #summary Explanation/Promotion of AS2Box, our Managed AS2 Gateway
 
-You *have to* exchange files/message using *AS2* with your trading partner *tomorrow*, and you do not know the AS2 (RFC 4130) transport protocol. On the other hand, you have experience transferring files/messages with *FTP* or *HTTP* (WebDAV).
+You *have to* exchange files/messages using *AS2* with your trading partner *tomorrow*, and you do not know the AS2 (RFC 4130) transport protocol. On the other hand, you have experience transferring files/messages with *FTP* or *HTTP* (WebDAV).
 
 Then, *AS2Box* is the solution to your problem!
 
