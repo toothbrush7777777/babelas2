@@ -1,13 +1,3 @@
-#summary Explanation/Promotion of AS2Box, out Managed AS2 Gateway
+#summary Explanation/Promotion of AS2Box, our Managed AS2 Gateway
 
-= Introduction =
-
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+You *have to* exchange files/message using *AS2* with your trading partner *tomorrow*, and you do not know the
